@@ -34,10 +34,10 @@ app.post("/send", (req, res) => {
     let transporter = nodemailer.createTransport({
       host: "ssl0.ovh.net",
       port: 465,
-      secure: true, 
+      secure: true,
       auth: {
-        user: "marcin@sesjefotograficzne.eu", 
-        pass: "Mmknkpe12", 
+        user: "kontakt@webdev-online.pl",
+        pass: "Mmknkpe12",
       },
       tls: {
         rejectUnauthorized: false,
@@ -46,7 +46,7 @@ app.post("/send", (req, res) => {
     // send mail with defined transport object
     await transporter.sendMail({
       from: `${req.body.name} 📧 <${req.body.mail}>`, // sender address
-      to: "marcin@sesjefotograficzne.eu", // list of receivers
+      to: "kontakt@webdev-online.pl", // list of receivers
       subject: `${req.body.name}`, // Subject line
       html: output, // html body
     });
