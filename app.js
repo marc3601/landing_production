@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const nodemailer = require("nodemailer");
 const port = process.env.PORT || 5000;
-const ip = process.env.IP || "51.195.91.42";
+const ip = process.env.IP || "localhost";
 const app = express();
 
 //body parser
@@ -14,6 +14,9 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "build")));
 const confirm = {
   info: "Wiadomość wysłana poprawnie",
+};
+const confirm2 = {
+  info: "Wystąpił błąd",
 };
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
@@ -44,14 +47,21 @@ app.post("/send", (req, res) => {
       },
     });
     // send mail with defined transport object
-    await transporter.sendMail({
-      from: `${req.body.name} 📧 <${req.body.mail}>`, // sender address
-      to: "kontakt@webdev-online.pl", // list of receivers
-      subject: `${req.body.name}`, // Subject line
-      html: output, // html body
-    });
-    console.log(`Message from ${req.body.mail} has been sent!`);
-    res.send(confirm);
+    await transporter
+      .sendMail({
+        from: `${req.body.name} 📧 <${req.body.mail}>`, // sender address
+        to: "kontakt@webdev-online.pl", // list of receivers
+        subject: `${req.body.name}`, // Subject line
+        html: output, // html body
+      })
+      .then(() => {
+        console.log(`Message from ${req.body.mail} has been sent!`);
+        res.send(confirm);
+      })
+      .catch(() => {
+        console.log(`Unable to send!`);
+        res.send(confirm2);
+      });
   }
   main().catch(console.error);
 });
