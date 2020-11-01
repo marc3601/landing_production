@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const nodemailer = require("nodemailer");
 const port = process.env.PORT || 5000;
-const ip = process.env.IP || "localhost";
+const ip = process.env.IP || "51.195.91.42";
 const app = express();
 
 //body parser
